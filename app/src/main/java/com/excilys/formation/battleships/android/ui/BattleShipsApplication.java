@@ -1,6 +1,7 @@
 package com.excilys.formation.battleships.android.ui;
 
 import android.app.Application;
+import android.content.Intent;
 
 import java.util.Arrays;
 import java.util.List;
@@ -73,7 +74,7 @@ public class BattleShipsApplication extends Application {
             mBoard = new BoardController(b);
             mOpponentBoard = new Board("IA");
 
-            mPlayer1 = new Player(playerName, b, mOpponentBoard, createDefaultShips());
+            mPlayer1 = new AndroidPlayer(playerName, b, mOpponentBoard, createDefaultShips());
             mPlayer2 = new AIPlayer(playerName, mOpponentBoard, b, createDefaultShips());
 
             // place player ships
@@ -93,15 +94,16 @@ public class BattleShipsApplication extends Application {
         }
     }
 
-
-    // TODO inherit from Player
-    public class AndroidPlayer {
-
+    private class AndroidPlayer extends Player {
         public AndroidPlayer(String name, Board board, Board opponentBoard, List<AbstractShip> ships) {
-            //TODO call Players's constructor
+            super(name, board, opponentBoard, ships);
         }
 
-        //TODO insert putShips() here by overriding player's method
+        @Override
+        public void putShips() {
+            Intent intent = new Intent(BattleShipsApplication.this, PutShipsActivity.class);
+            startActivity(intent);
+        }
     }
 
 }
