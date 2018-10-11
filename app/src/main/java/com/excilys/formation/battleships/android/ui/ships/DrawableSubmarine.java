@@ -5,20 +5,21 @@ import java.util.Map;
 
 import battleships.formation.excilys.com.battleships.R;
 import battleships.ship.BattleShip;
+import battleships.ship.Submarine;
 
 /**
  * Created by scaltot on 12/09/17.
  */
 
-public class DrawableBattleship extends BattleShip implements DrawableShip {
+public class DrawableSubmarine extends Submarine implements DrawableShip {
 
     private static final Map<Orientation, Integer> DRAWABLES = new HashMap<>();
 
     static {
-        DRAWABLES.put(Orientation.NORTH, R.drawable.battleship_n);
-        DRAWABLES.put(Orientation.SOUTH, R.drawable.battleship_s);
-        DRAWABLES.put(Orientation.WEST, R.drawable.battleship_w);
-        DRAWABLES.put(Orientation.EAST, R.drawable.battleship_e);
+        DRAWABLES.put(Orientation.NORTH, R.drawable.submarine_n);
+        DRAWABLES.put(Orientation.SOUTH, R.drawable.submarine_s);
+        DRAWABLES.put(Orientation.WEST, R.drawable.submarine_w);
+        DRAWABLES.put(Orientation.EAST, R.drawable.submarine_e);
     }
 
     @Override
