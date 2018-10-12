@@ -20,8 +20,15 @@ import battleships.formation.excilys.com.battleships.R;
 import battleships.ship.AbstractShip;
 
 
-public class BoardActivity extends AppCompatActivity {
+public class BoardActivity extends AppCompatActivity implements BoardGridFragment.BoardGridFragmentListener {
     private static final String TAG = BoardActivity.class.getSimpleName();
+
+    @Override
+    public void onTileClick(int id, int x, int y) {
+        if(id == BoardController.HITS_FRAGMENT) {
+            doPlayerTurn(x, y);
+        }
+    }
 
     private static class Default {
         private static final int TURN_DELAY = 1000; // ms
