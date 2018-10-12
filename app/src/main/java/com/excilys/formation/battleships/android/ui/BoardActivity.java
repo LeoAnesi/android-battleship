@@ -76,28 +76,41 @@ public class BoardActivity extends AppCompatActivity implements BoardGridFragmen
 
     // TODO  call me maybe
     private void doPlayerTurn(int x, int y) {
-        mPlayerTurn = false;
-        Hit hit = mOpponentBoard.sendHit(x, y);
-        boolean strike = hit != Hit.MISS;
+        new AsyncTask<Integer, String, Boolean>() {
+            @Override
+            protected Boolean doInBackground(Integer... params) {
+                mPlayerTurn = false;
+                Hit hit = mOpponentBoard.sendHit(params[0], params[1]);
+                boolean strike = hit != Hit.MISS;
 
-        mBoardController.setHit(strike, x, y);
-
-        if (strike) {
-            mPlayerTurn = true;
-            mDone = updateScore();
-            if (mDone) {
-                gotoScoreActivity();
+                String msgToLog = String.format(Locale.US, "Hit (%d, %d) : %s", params[0], params[1], strike);
+                Log.d(TAG, msgToLog);
+                publishProgress(makeHitMessage(false, new int[] {params[0],params[1]}, hit), Boolean.toString(strike), Integer.toString(params[0]), Integer.toString(params[1]));
+                sleep(Default.TURN_DELAY);
+                return strike;
             }
-        } else {
-            // TODO sleep a while...
-            mViewPager.setCurrentItem(BoardController.SHIPS_FRAGMENT);
-            mViewPager.setEnableSwipe(false);
-            doOpponentTurn();
-        }
-        String msgToLog = String.format(Locale.US, "Hit (%d, %d) : %s", x, y, strike);
-        Log.d(TAG, msgToLog);
 
-        showMessage(makeHitMessage(false, new int[] {x,y}, hit));
+            @Override
+            protected void onPostExecute(Boolean strike) {
+                if(!strike) {
+                    mViewPager.setCurrentItem(BoardController.SHIPS_FRAGMENT);
+                    mViewPager.setEnableSwipe(false);
+                    doOpponentTurn();
+                } else {
+                    mPlayerTurn = true;
+                    mDone = updateScore();
+                    if(mDone) {
+                        gotoScoreActivity();
+                    }
+                }
+            }
+
+            @Override
+            protected void onProgressUpdate(String... params) {
+                showMessage(params[0]);
+                mBoardController.setHit(Boolean.parseBoolean(params[1]), Integer.parseInt(params[2]), Integer.parseInt(params[3]));
+            }
+        }.execute(x, y);
     }
 
     private void doOpponentTurn() {
