@@ -5,5 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorWin">#00dc1a</color>
     <color name="colorLose">#FF4081</color>
-    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
 </resources>

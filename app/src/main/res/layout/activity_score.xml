@@ -12,8 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-
-        android:text="@string/win"
+        android:background="@drawable/win_background"
         android:textColor="@color/colorWin"
         android:textAlignment="center"
         android:textAppearance="@android:style/TextAppearance.Large" />
